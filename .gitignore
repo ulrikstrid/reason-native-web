@@ -1,0 +1,8 @@
+_build
+_esy
+node_modules/
+
+*.byte
+*.native
+*.install
+**/.merlin

@@ -1,0 +1,3 @@
+(executable (name RunReasonNativeWebTests)
+    (public_name RunReasonNativeWebTests.exe)
+    (libraries reason-native-web.test)) 

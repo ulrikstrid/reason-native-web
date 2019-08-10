@@ -1,0 +1,22 @@
+{
+  "name": "@ulrikstrid/reason-jose",
+  "version": "0.1.0",
+  "esy": {
+    "build": "dune build -p reason-jose"
+  },
+  "dependencies": {
+    "@opam/dune": "*",
+    "@opam/base64": "*",
+    "@opam/containers": "*",
+    "@opam/hex": "*",
+    "@opam/lwt": "*",
+    "@opam/nocrypto": "*",
+    "@opam/x509": "0.6.3",
+    "@opam/yojson": "*",
+    "@opam/zarith": "*",
+    "@esy-ocaml/reason": "*",
+    "@opam/logs": "*",
+    "@opam/fmt": "*",
+    "ocaml": "*"
+  }
+}
