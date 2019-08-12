@@ -19,7 +19,7 @@ jobs:
       - task: CacheBeta@0
         displayName: Cache esy
         inputs:
-          key: ${{ parameters.esyLockPath }}
+          key: esy | $(Agent.OS) | ${{ parameters.esyLockPath }}
           path: $(ESY__PREFIX)
       - script: "esy install"
         displayName: "esy install"
