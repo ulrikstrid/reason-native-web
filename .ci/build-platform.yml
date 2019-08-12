@@ -2,6 +2,7 @@ parameters:
   platform: "macOS"
   vmImage: "macOS-10.13"
   esyLockPath: $(Build.SourcesDirectory)/esy.lock
+  installFolderPath: /3_______________________________________________
   ESY__PREFIX: $(Pipeline.Workspace)/.esy
 
 jobs:
@@ -19,8 +20,8 @@ jobs:
       - task: CacheBeta@0
         displayName: Cache esy
         inputs:
-          key: esy | $(Agent.OS) | ${{ parameters.esyLockPath }}
-          path: $(ESY__PREFIX)
+          key: $(Agent.OS) | esy | ${{ parameters.esyLockPath }}
+          path: ${{ parameters.ESY__PREFIX }}${{ parameters.installFolderPath }}
       - script: "esy install"
         displayName: "esy install"
       - script: "esy build"
@@ -28,3 +29,5 @@ jobs:
       - template: utils/create-docs.yml
       - script: "esy test"
         displayName: "Test command"
+      - script: echo '${{ parameters.ESY__PREFIX }}${{ parameters.installFolderPath }}'
+      - script: ls ${{ parameters.ESY__PREFIX }}
