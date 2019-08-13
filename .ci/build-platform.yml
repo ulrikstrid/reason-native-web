@@ -17,11 +17,11 @@ jobs:
     steps:
       - template: utils/use-node.yml
       - template: utils/use-esy.yml
-      - task: CacheBeta@0
-        displayName: Cache esy
-        inputs:
-          key: $(Agent.OS) | esy | ${{ parameters.esyLockPath }}
-          path: ${{ parameters.ESY__PREFIX }}${{ parameters.installFolderPath }}
+#      - task: CacheBeta@0
+#        displayName: Cache esy
+#        inputs:
+#          key: $(Agent.OS) | esy | ${{ parameters.esyLockPath }}
+#          path: ${{ parameters.ESY__PREFIX }}${{ parameters.installFolderPath }}
       - script: "esy install"
         displayName: "esy install"
       - script: "esy build"
