@@ -1,5 +1,0 @@
-(library
-    (name oidc)
-    (public_name reason-oidc)
-    (libraries lwt logs uri yojson str containers
-        reason-jose)) 

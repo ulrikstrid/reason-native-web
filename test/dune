@@ -1,5 +1,0 @@
-(library
-    (name Test)
-    (public_name reason-native-web.test)
-    (libraries rely.lib reason-http reason-oidc reason-jose)
-    (flags -linkall -g -w -9))

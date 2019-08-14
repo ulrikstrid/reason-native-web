@@ -1,4 +1,0 @@
-(library
-    (name ReasonNativeWeb)
-    (public_name reason-native-web)
-    (libraries reason-oidc reason-http reason-jose)) 
