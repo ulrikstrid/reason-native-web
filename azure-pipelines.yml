@@ -44,7 +44,6 @@ stages:
         deploy:
           steps:
             - script: |
-                git config user.name "Strid Bot"
                 git clone https://$(github_pat)@github.com/ulrikstrid/reason-native-web .
                 git checkout gh-pages
                 git pull
@@ -60,9 +59,12 @@ stages:
                 artifactName: Docs
                 targetPath: $(Build.StagingDirectory)/next
 
-            - script: ls $(Build.StagingDirectory)/next
+            - script: |
+                ls $(Build.StagingDirectory)
+                ls $(Build.StagingDirectory)/next
               
             - script: |
+                git config user.name "Strid Bot"
                 git add --all
                 git commit --message "$(Build.SourceVersionMessage)"
               workingDirectory: $(Build.StagingDirectory)
