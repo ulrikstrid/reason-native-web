@@ -58,14 +58,11 @@ stages:
               inputs:
                 artifactName: Docs
                 targetPath: $(Build.StagingDirectory)/next
-
-            - script: |
-                ls $(Build.StagingDirectory)
-                ls $(Build.StagingDirectory)/next
               
             - script: |
                 git config user.name "Strid Bot"
                 git add --all
                 git commit --message "$(Build.SourceVersionMessage)"
+                git push
               workingDirectory: $(Build.StagingDirectory)
               displayName: "Push docs to Github pages"
