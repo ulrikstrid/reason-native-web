@@ -43,14 +43,27 @@ stages:
       runOnce:
         deploy:
           steps:
-            - download: current
-              artifact: Docs
+            - script: |
+                git config user.name "Strid Bot"
+                git clone https://$(github_pat)@github.com/ulrikstrid/reason-native-web .
+                git checkout gh-pages
+                git pull
+              workingDirectory: $(Build.StagingDirectory)
+              displayName: "Clone GitHub pages repo"
 
-            - task: AzureFileCopy@3
-              displayName: Publish docs to Azure Storage Account
+            - script: rm -rf $(Build.StagingDirectory)/next
+              displayName: Remove last version of the docs
+
+            - task: DownloadPipelineArtifact@2
+              displayName: Download docs
               inputs:
-                SourcePath: $(Pipeline.Workspace)/Docs
-                azureSubscription: us-mpn
-                Destination: 'AzureBlob'
-                storage: $(Storage.storageName)
-                ContainerName: '$web'
+                artifactName: Docs
+                targetPath: $(Build.StagingDirectory)/next
+
+            - script: ls $(Build.StagingDirectory)/next
+              
+            - script: |
+                git add --all
+                git commit --message "$(Build.SourceVersionMessage)"
+              workingDirectory: $(Build.StagingDirectory)
+              displayName: "Push docs to Github pages"
