@@ -8,9 +8,7 @@ steps:
     displayName: "Save docsPath in variable"
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
 
-  - task: PublishBuildArtifacts@1
+  - publish: $(docsPath)
     displayName: "Publish Artifact: Docs"
+    artifact: Docs
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
-    inputs:
-      PathtoPublish: $(docsPath)
-      ArtifactName: Docs

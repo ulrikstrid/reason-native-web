@@ -1,29 +1,56 @@
-name: Build npm release
+name: Build npm release - $(Build.BuildId)
 
 trigger:
   - master
 
-jobs:
-  - template: .ci/build-platform.yml
-    parameters:
-      platform: Linux
+stages:
+- stage: Build
+  jobs:
+    - template: .ci/build-platform.yml
+      parameters:
+        platform: Linux
+        vmImage: ubuntu-16.04
+        esyLockPath: $(Build.SourcesDirectory)/esy.lock/index.json
+        installFolderPath: /3______________________________________________________________
+        ESY__PREFIX: $(Pipeline.Workspace)/.esy
+
+    - template: .ci/build-platform.yml
+      parameters:
+        platform: macOS
+        vmImage: macOS-10.13
+        esyLockPath: $(Build.SourcesDirectory)/esy.lock/index.json
+        installFolderPath: /3_______________________________________________
+        ESY__PREFIX: $(Pipeline.Workspace)/.esy
+
+  #  - template: .ci/build-platform.yml
+  #    parameters:
+  #      platform: Windows
+  #      vmImage: vs2017-win2016
+  #      esyLockPath: $(Build.SourcesDirectory)\esy.lock\index.json
+  #      installFolderPath: \3_\i
+  #      ESY__PREFIX: $(Pipeline.Workspace)\.esy
+
+- stage: Publish_docs
+  displayName: Publish documentation
+  dependsOn: [Build]
+  jobs:
+  - deployment: Publish_docs
+    displayName: Publish docs to Azure
+    environment: prod
+    pool:
       vmImage: ubuntu-16.04
-      esyLockPath: $(Build.SourcesDirectory)/esy.lock/index.json
-      installFolderPath: /3______________________________________________________________
-      ESY__PREFIX: $(Pipeline.Workspace)/.esy
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - download: current
+              artifact: Docs
 
-  - template: .ci/build-platform.yml
-    parameters:
-      platform: macOS
-      vmImage: macOS-10.13
-      esyLockPath: $(Build.SourcesDirectory)/esy.lock/index.json
-      installFolderPath: /3_______________________________________________
-      ESY__PREFIX: $(Pipeline.Workspace)/.esy
-
-#  - template: .ci/build-platform.yml
-#    parameters:
-#      platform: Windows
-#      vmImage: vs2017-win2016
-#      esyLockPath: $(Build.SourcesDirectory)\esy.lock\index.json
-#      installFolderPath: \3_\i
-#      ESY__PREFIX: $(Pipeline.Workspace)\.esy
+            - task: AzureFileCopy@3
+              displayName: Publish docs to Azure Storage Account
+              inputs:
+                SourcePath: $(Pipeline.Workspace)/Docs
+                azureSubscription: us-mpn
+                Destination: 'AzureBlob'
+                storage: $(Storage.storageName)
+                ContainerName: '$web'
