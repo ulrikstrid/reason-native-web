@@ -1,5 +1,5 @@
 (library
     (name Http)
-    (public_name reason-http)
+    (public_name http)
     (libraries lwt logs uri str containers httpaf httpaf-lwt-unix h2
         h2-lwt-unix)) 

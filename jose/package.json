@@ -1,8 +1,8 @@
 {
-  "name": "@ulrikstrid/reason-jose",
+  "name": "@reason-native-web/jose",
   "version": "0.1.0",
   "esy": {
-    "build": "dune build -p reason-jose"
+    "build": "dune build -p jose"
   },
   "dependencies": {
     "@opam/dune": "*",

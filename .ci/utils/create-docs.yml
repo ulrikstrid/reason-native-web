@@ -1,6 +1,6 @@
 # These steps are only run on Linux
 steps:
-  - script: "esy doc"
+  - script: "esy docs"
     displayName: "Build docs"
     condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
 

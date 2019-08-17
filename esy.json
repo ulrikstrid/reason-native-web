@@ -2,32 +2,33 @@
   "name": "reason-native-web",
   "version": "0.1.0",
   "esy": {
-    "build": "dune build -p #{self.name}",
+    "build": "dune build --root=. --only-packages=reason-native-web",
     "buildEnv": {
       "ODOC_SYNTAX": "re"
     }
   },
   "scripts": {
     "test": "esy b dune runtest",
-    "doc": "esy dune build @doc",
-    "doc-path": "esy echo #{self.target_dir}/default/_doc/_html/index.html"
+    "docs": "esy dune build --root=. @doc",
+    "open-docs": "esy oopen #{self.target_dir}/default/_doc/_html/index.html"
   },
   "dependencies": {
-    "@ulrikstrid/reason-http": "*",
-    "@ulrikstrid/reason-oidc": "*",
-    "@ulrikstrid/reason-jose": "*",
+    "@reason-native-web/http": "*",
+    "@reason-native-web/oidc": "*",
+    "@reason-native-web/jose": "*",
     "@reason-native/rely": "*"
   },
   "devDependencies": {
     "@opam/merlin": "*",
     "@opam/ocamlformat": "*",
-    "@opam/odoc": "*"
+    "@opam/odoc": "*",
+    "@reason-native-web/oopen": "1.0.1"
   },
   "resolutions": {
     "@opam/cstruct": "3.3.0",
-    "@ulrikstrid/reason-http": "link:./http/package.json",
-    "@ulrikstrid/reason-oidc": "link:./oidc/package.json",
-    "@ulrikstrid/reason-jose": "link:./jose/package.json",
+    "@reason-native-web/http": "link:./http/package.json",
+    "@reason-native-web/oidc": "link:./oidc/package.json",
+    "@reason-native-web/jose": "link:./jose/package.json",
     "@opam/httpaf-lwt-unix": "anmonteiro/httpaf:httpaf-lwt-unix.opam#5dff1b4",
     "@opam/httpaf-lwt": "anmonteiro/httpaf:httpaf-lwt.opam#5dff1b4",
     "@opam/httpaf": "anmonteiro/httpaf:httpaf.opam#5dff1b4",

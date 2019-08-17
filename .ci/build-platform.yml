@@ -26,8 +26,20 @@ jobs:
         displayName: "esy install"
       - script: "esy build"
         displayName: "esy build"
-      - template: utils/create-docs.yml
       - script: "esy test"
         displayName: "Test command"
+      - template: utils/create-docs.yml
+      - template: utils/create-npm-package.yml
+        parameters:
+          package_name: http
+          module_path: ./http
+      - template: utils/create-npm-package.yml
+        parameters:
+          package_name: oidc
+          module_path: ./oidc
+      - template: utils/create-npm-package.yml
+        parameters:
+          package_name: jose
+          module_path: ./jose
       - script: echo '${{ parameters.ESY__PREFIX }}${{ parameters.installFolderPath }}'
       - script: ls ${{ parameters.ESY__PREFIX }}

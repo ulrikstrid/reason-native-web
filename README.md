@@ -7,9 +7,6 @@ A toolkit for building web applications in reason native
 ```json
   "resolutions": {
     "@opam/cstruct": "3.3.0",
-    "@ulrikstrid/reason-http": "link:./http/package.json",
-    "@ulrikstrid/reason-oidc": "link:./oidc/package.json",
-    "@ulrikstrid/reason-jose": "link:./jose/package.json",
     "@opam/httpaf-lwt-unix": "anmonteiro/httpaf:httpaf-lwt-unix.opam#5dff1b4",
     "@opam/httpaf-lwt": "anmonteiro/httpaf:httpaf-lwt.opam#5dff1b4",
     "@opam/httpaf": "anmonteiro/httpaf:httpaf.opam#5dff1b4",

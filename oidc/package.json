@@ -1,8 +1,8 @@
 {
-  "name": "@ulrikstrid/reason-oidc",
+  "name": "@reason-native-web/oidc",
   "version": "0.1.0",
   "esy": {
-    "build": "dune build -p reason-oidc"
+    "build": "dune build -p oidc"
   },
   "dependencies": {
     "@opam/containers": "*",
@@ -12,7 +12,7 @@
     "@opam/logs": "*",
     "@opam/fmt": "*",
     "ocaml": "*",
-    "@ulrikstrid/reason-jose": "*",
+    "@reason-native-web/jose": "*",
     "@esy-ocaml/reason": "*"
   }
 }
