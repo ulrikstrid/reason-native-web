@@ -41,5 +41,3 @@ jobs:
         parameters:
           package_name: jose
           module_path: ./jose
-      - script: echo '${{ parameters.ESY__PREFIX }}${{ parameters.installFolderPath }}'
-      - script: ls ${{ parameters.ESY__PREFIX }}
