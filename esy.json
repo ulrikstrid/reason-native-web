@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "@opam/merlin": "*",
-    "@opam/ocamlformat": "*",
     "@opam/odoc": "*",
     "@reason-native-web/oopen": "1.0.1"
   },
