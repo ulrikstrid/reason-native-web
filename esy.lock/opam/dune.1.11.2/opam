@@ -45,9 +45,9 @@ build: [
 ]
 url {
   src:
-    "https://github.com/ocaml/dune/releases/download/1.11.1/dune-build-info-1.11.1.tbz"
+    "https://github.com/ocaml/dune/releases/download/1.11.2/dune-build-info-1.11.2.tbz"
   checksum: [
-    "sha256=57afa265e08810fe910a1e277ffc4877490d9ddfbe984882a17d05daa2723f42"
-    "sha512=14dbb9ade5b86b2b136e1658eb96d4d455838b01ec2129591816f0cafa037b97b1570cd8a45b4a664b87eb5f4b6f2de1cc14c64221b922623415e59c73638ec8"
+    "sha256=5bc5a6b505bbc24ea5ee4f7fb5d4c5c914016961eacf1ae688d3f00c893bda23"
+    "sha512=e5af097d022cedda0b27224504a3533a2e2e0f6f63d2f52686418fbff849d295a94da4980391a1b1a111ce6b037a14a2241b50d4ba00625a16f025e0c4eeaac0"
   ]
 }

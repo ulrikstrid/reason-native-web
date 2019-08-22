@@ -36,10 +36,6 @@
     "@opam/ssl": {
       "source": "savonet/ocaml-ssl:ssl.opam#9dd1cbf71839195e115b8e2438554c530e0f0ed0",
       "override": {
-        "dependencies": {
-          "@opam/conf-openssl": "*",
-          "@esy-packages/esy-openssl": "esy-packages/esy-openssl#f731e9c"
-        },
         "buildEnv": {
           "CFLAGS": "-I$OPENSSL_INCLUDE_PATH",
           "LDFLAGS": "-L$OPENSSL_LIB_PATH"
