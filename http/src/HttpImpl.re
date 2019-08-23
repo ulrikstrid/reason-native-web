@@ -1,9 +1,14 @@
-type t('meth, 'headers, 'status, 'response, 'reqd) = {
+type t('meth, 'headers) = {
   target: string,
   meth: 'meth,
   get_header: string => option(string),
-  create_response: (~headers: 'headers, 'status) => 'response,
-  respond_with_string: ('reqd, 'response, string) => unit,
-  headers_of_list: list((string, string)) => 'headers,
-  read_body: 'reqd => Lwt.t(string),
+  read_body: unit => Lwt.t(string),
 };
+
+type response('status) = {
+  status: 'status,
+  headers: list((string, string)),
+  body: string,
+};
+
+let make_response = (~status=`Ok, ~headers, body) => {status, headers, body};

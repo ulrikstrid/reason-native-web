@@ -15,11 +15,12 @@ let route_handler:
         Httpaf.Headers.get(headers, "content-length")
         |> CCOpt.map_or(~default=128, int_of_string);
 
-      let read_body =
+      let read_body = () =>
         Body.read(
           ~content_length,
           ~get_request_body=Httpaf.Reqd.request_body,
           ~schedule_read=Httpaf.Body.schedule_read,
+          request_descriptor,
         );
 
       let create_response = (~headers, status) =>
@@ -35,14 +36,19 @@ let route_handler:
           target,
           meth,
           get_header: Httpaf.Headers.get(headers),
-          create_response,
-          respond_with_string: Httpaf.Reqd.respond_with_string,
-          headers_of_list: Httpaf.Headers.of_list,
           read_body,
         };
 
-      make_routes_callback(~httpImpl, ~context, request_descriptor)
-      |> Lwt.map(() => {
+      make_routes_callback(~httpImpl, ~context)
+      |> Lwt.map((response: HttpImpl.response(Httpaf.Status.t)) => {
+           let headers = Httpaf.Headers.of_list(response.headers);
+           let () =
+             Httpaf.Reqd.respond_with_string(
+               request_descriptor,
+               create_response(~headers, response.status),
+               response.body,
+             );
+
            let stop = Unix.gettimeofday();
            Logs.info(m =>
              m(

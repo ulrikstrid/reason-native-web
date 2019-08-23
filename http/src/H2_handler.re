@@ -15,11 +15,12 @@ let route_handler: ('a, 'b, Unix.sockaddr, H2.Reqd.t) => unit =
         H2.Headers.get(headers, "content-length")
         |> CCOpt.map_or(~default=128, int_of_string);
 
-      let read_body =
+      let read_body = () =>
         Body.read(
           ~content_length,
           ~get_request_body=H2.Reqd.request_body,
           ~schedule_read=H2.Body.schedule_read,
+          request_descriptor,
         );
 
       let create_response = (~headers, status) =>
@@ -30,14 +31,19 @@ let route_handler: ('a, 'b, Unix.sockaddr, H2.Reqd.t) => unit =
           target,
           meth,
           get_header: H2.Headers.get(headers),
-          create_response,
-          respond_with_string: H2.Reqd.respond_with_string,
-          headers_of_list: H2.Headers.of_list,
           read_body,
         };
 
       make_routes_callback(~httpImpl, ~context, request_descriptor)
-      |> Lwt.map(() => {
+      |> Lwt.map((response: HttpImpl.response(H2.Status.t)) => {
+           let headers = H2.Headers.of_list(response.headers);
+           let () =
+             H2.Reqd.respond_with_string(
+               request_descriptor,
+               create_response(~headers, response.status),
+               response.body,
+             );
+
            let stop = Unix.gettimeofday();
            Logs.info(m =>
              m(
