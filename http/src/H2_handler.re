@@ -34,13 +34,14 @@ let route_handler: ('a, 'b, Unix.sockaddr, H2.Reqd.t) => unit =
           read_body,
         };
 
-      make_routes_callback(~httpImpl, ~context, request_descriptor)
-      |> Lwt.map((response: HttpImpl.response(H2.Status.t)) => {
+      make_routes_callback(~httpImpl, context)
+      |> Lwt.map((response: HttpImpl.response) => {
            let headers = H2.Headers.of_list(response.headers);
+
            let () =
              H2.Reqd.respond_with_string(
                request_descriptor,
-               create_response(~headers, response.status),
+               create_response(~headers, `Code(Status.to_code(response.status))),
                response.body,
              );
 

@@ -39,13 +39,14 @@ let route_handler:
           read_body,
         };
 
-      make_routes_callback(~httpImpl, ~context)
-      |> Lwt.map((response: HttpImpl.response(Httpaf.Status.t)) => {
+      make_routes_callback(~httpImpl, context)
+      |> Lwt.map((response: HttpImpl.response) => {
            let headers = Httpaf.Headers.of_list(response.headers);
+
            let () =
              Httpaf.Reqd.respond_with_string(
                request_descriptor,
-               create_response(~headers, response.status),
+               create_response(~headers, `Code(Status.to_code(response.status))),
                response.body,
              );
 

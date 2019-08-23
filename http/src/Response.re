@@ -8,7 +8,7 @@ module Ok = {
       | None => [("content-length", "2")]
       };
 
-    HttpImpl.make_response(~status=`Ok, ~headers, "ok");
+    HttpImpl.make_response(~status=`OK, ~headers, "ok");
   };
 };
 
@@ -25,7 +25,7 @@ module Text = {
         ]
       };
 
-    HttpImpl.make_response(~status=`Ok, ~headers, text);
+    HttpImpl.make_response(~status=`OK, ~headers, text);
   };
 };
 
@@ -37,7 +37,7 @@ module Json = {
       ("content-length", content_length),
     ];
 
-    HttpImpl.make_response(~status=`Ok, ~headers, json);
+    HttpImpl.make_response(~status=`OK, ~headers, json);
   };
 };
 
@@ -49,7 +49,7 @@ module Html = {
       ("content-length", content_length),
     ];
 
-    HttpImpl.make_response(~status=`Ok, ~headers, markup);
+    HttpImpl.make_response(~status=`OK, ~headers, markup);
   };
 };
 
@@ -88,6 +88,6 @@ module NotFound = {
       ("content-length", String.length(message) |> string_of_int),
     ];
 
-    HttpImpl.make_response(~status=`NotFound, ~headers, message);
+    HttpImpl.make_response(~status=`Not_found, ~headers, message);
   };
 };

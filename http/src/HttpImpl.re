@@ -1,14 +1,14 @@
-type t('meth, 'headers) = {
+type t = {
   target: string,
-  meth: 'meth,
+  meth: Method.t,
   get_header: string => option(string),
   read_body: unit => Lwt.t(string),
 };
 
-type response('status) = {
-  status: 'status,
+type response = {
+  status: Status.t,
   headers: list((string, string)),
   body: string,
 };
 
-let make_response = (~status=`Ok, ~headers, body) => {status, headers, body};
+let make_response = (~status=`OK, ~headers, body) => {status, headers, body};

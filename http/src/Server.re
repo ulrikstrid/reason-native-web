@@ -88,7 +88,7 @@ let startHttpsServer =
                     ~request_handler=
                       Http1_handler.route_handler(
                         context,
-                        Obj.magic(make_routes_callback),
+                        make_routes_callback,
                       ),
                     ssl_server,
                     client_addr,
@@ -97,10 +97,7 @@ let startHttpsServer =
                 | Some("h2") =>
                   h2_handler(
                     ~request_handler=
-                      H2_handler.route_handler(
-                        context,
-                        Obj.magic(make_routes_callback),
-                      ),
+                      H2_handler.route_handler(context, make_routes_callback),
                     ssl_server,
                     client_addr,
                     fd,
