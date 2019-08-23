@@ -3,79 +3,53 @@ open HttpImpl;
 module Ok = {
   let make = (~httpImpl, ~extra_headers=?, reqd) => {
     let headers =
-      (
-        switch (extra_headers) {
-        | Some(h) => [("content-length", "2"), ...h]
-        | None => [("content-length", "2")]
-        }
-      )
-      |> httpImpl.headers_of_list;
-    httpImpl.respond_with_string(
-      reqd,
-      httpImpl.create_response(~headers, `OK),
-      "ok",
-    );
-    ();
+      switch (extra_headers) {
+      | Some(h) => [("content-length", "2"), ...h]
+      | None => [("content-length", "2")]
+      };
+
+    HttpImpl.make_response(~status=`Ok, ~headers, "ok");
   };
 };
 
 module Text = {
   let make = (~httpImpl, ~extra_headers=?, ~text, reqd) => {
     let headers =
-      (
-        switch (extra_headers) {
-        | Some(h) => [
-            ("content-length", CCString.length(text) |> CCInt.to_string),
-            ...h,
-          ]
-        | None => [
-            ("content-length", CCString.length(text) |> CCInt.to_string),
-          ]
-        }
-      )
-      |> httpImpl.headers_of_list;
-    httpImpl.respond_with_string(
-      reqd,
-      httpImpl.create_response(~headers, `OK),
-      text,
-    );
-    ();
+      switch (extra_headers) {
+      | Some(h) => [
+          ("content-length", CCString.length(text) |> CCInt.to_string),
+          ...h,
+        ]
+      | None => [
+          ("content-length", CCString.length(text) |> CCInt.to_string),
+        ]
+      };
+
+    HttpImpl.make_response(~status=`Ok, ~headers, text);
   };
 };
 
 module Json = {
   let make = (~httpImpl, ~json, reqd) => {
     let content_length = json |> String.length |> string_of_int;
-    httpImpl.respond_with_string(
-      reqd,
-      httpImpl.create_response(
-        ~headers=
-          httpImpl.headers_of_list([
-            ("content-type", "application/json"),
-            ("content-length", content_length),
-          ]),
-        `OK,
-      ),
-      json,
-    );
+    let headers = [
+      ("content-type", "application/json"),
+      ("content-length", content_length),
+    ];
+
+    HttpImpl.make_response(~status=`Ok, ~headers, json);
   };
 };
 
 module Html = {
   let make = (~httpImpl, ~markup, reqd) => {
     let content_length = markup |> String.length |> string_of_int;
-    httpImpl.respond_with_string(
-      reqd,
-      httpImpl.create_response(
-        ~headers=
-          httpImpl.headers_of_list([
-            ("content-type", "text/html"),
-            ("content-length", content_length),
-          ]),
-        `OK,
-      ),
-      markup,
-    );
+    let headers = [
+      ("content-type", "text/html"),
+      ("content-length", content_length),
+    ];
+
+    HttpImpl.make_response(~status=`Ok, ~headers, markup);
   };
 };
 
@@ -89,52 +63,31 @@ module Redirect = {
     ];
 
     let headers =
-      (
-        switch (extra_headers) {
-        | Some(h) => CCList.concat([constantHeaders, h])
-        | None => constantHeaders
-        }
-      )
-      |> httpImpl.headers_of_list;
+      switch (extra_headers) {
+      | Some(h) => CCList.concat([constantHeaders, h])
+      | None => constantHeaders
+      };
 
-    httpImpl.respond_with_string(
-      reqd,
-      httpImpl.create_response(~headers, `Code(code)),
-      targetPath,
-    );
+    HttpImpl.make_response(~status=`Code(code), ~headers, targetPath);
   };
 };
 
 module Unauthorized = {
   let make = (~httpImpl, message, reqd) => {
-    httpImpl.respond_with_string(
-      reqd,
-      httpImpl.create_response(
-        ~headers=
-          httpImpl.headers_of_list([
-            ("content-length", String.length(message) |> string_of_int),
-          ]),
-        `Code(401),
-      ),
-      message,
-    );
-    ();
+    let headers = [
+      ("content-length", String.length(message) |> string_of_int),
+    ];
+
+    HttpImpl.make_response(~status=`Unauthorized, ~headers, message);
   };
 };
 
 module NotFound = {
   let make = (~httpImpl, ~message="Not found", reqd) => {
-    httpImpl.respond_with_string(
-      reqd,
-      httpImpl.create_response(
-        ~headers=
-          httpImpl.headers_of_list([
-            ("content-length", String.length(message) |> string_of_int),
-          ]),
-        `Code(404),
-      ),
-      message,
-    );
-    ();
+    let headers = [
+      ("content-length", String.length(message) |> string_of_int),
+    ];
+
+    HttpImpl.make_response(~status=`NotFound, ~headers, message);
   };
 };
