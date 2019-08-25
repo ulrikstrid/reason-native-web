@@ -16,11 +16,13 @@
     "@reason-native-web/http": "*",
     "@reason-native-web/oidc": "*",
     "@reason-native-web/jose": "*",
-    "@reason-native/rely": "*"
+    "@reason-native/rely": "*",
+    "@esy-ocaml/reason": "*"
   },
   "devDependencies": {
     "@opam/merlin": "*",
     "@opam/odoc": "*",
+    "@opam/routes": "*",
     "@reason-native-web/oopen": "1.0.1"
   },
   "resolutions": {
