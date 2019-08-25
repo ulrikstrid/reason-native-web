@@ -34,8 +34,8 @@
 
 type informational = [
   | `Continue
-  | `Switching_protocols
   ]
+(*| `Switching_protocols*)
 
 type successful = [ 
   | `OK
@@ -112,7 +112,7 @@ type t = [
 let default_reason_phrase = function
  (* Informational *)
   | `Continue -> "Continue"
-  | `Switching_protocols -> "Switching Protocols"
+ (*| `Switching_protocols -> "Switching Protocols"*)
  (* Successful *)
   | `OK -> "OK"
   | `Created -> "Created"
@@ -163,7 +163,7 @@ let default_reason_phrase = function
 let to_code = function
  (* Informational *)
   | `Continue -> 100
-  | `Switching_protocols -> 101
+ (*| `Switching_protocols -> 101*)
  (* Successful *)
   | `OK -> 200
   | `Created -> 201
@@ -215,7 +215,7 @@ let to_code = function
 let really_unsafe_of_code = function
  (* Informational *)
   | 100 -> `Continue 
-  | 101 -> `Switching_protocols 
+ (* | 101 -> `Switching_protocols*) 
  (* Successful *)
   | 200 -> `OK 
   | 201 -> `Created 
@@ -317,7 +317,7 @@ let is_error t =
 let to_string = function (* don't allocate *)
  (* Informational *)
   | `Continue -> "100"
-  | `Switching_protocols -> "101"
+ (* | `Switching_protocols -> "101"*)
  (* Successful *)
   | `OK -> "200"
   | `Created -> "201"

@@ -31,16 +31,16 @@ let route_handler:
           status,
         );
 
-      let httpImpl =
-        HttpImpl.{
+      let request =
+        Request.{
           target,
           meth,
           get_header: Httpaf.Headers.get(headers),
           read_body,
         };
 
-      make_routes_callback(~httpImpl, context)
-      |> Lwt.map((response: HttpImpl.response) => {
+      make_routes_callback(~request, context)
+      |> Lwt.map((response: Response.t) => {
            let headers = Httpaf.Headers.of_list(response.headers);
 
            let () =

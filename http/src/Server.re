@@ -123,13 +123,12 @@ let startHttpsServer =
 
 let start =
     (
-      ~http1_port=8080,
-      ~http2_port=9443,
+      ~http_port=8080,
+      ~https_port=9443,
       ~context,
-      ~make_routes_callback,
       ~cert=?,
       ~priv_key=?,
-      (),
+      make_routes_callback,
     ) => {
   if (Sys.unix) {
     Sys.(set_signal(sigpipe, Signal_handle(_ => ())));
@@ -138,9 +137,9 @@ let start =
   switch (cert, priv_key) {
   | (Some(cert), Some(priv_key)) =>
     Lwt.join([
-      startHttpServer(~port=http1_port, ~context, ~make_routes_callback, ()),
+      startHttpServer(~port=http_port, ~context, ~make_routes_callback, ()),
       startHttpsServer(
-        ~port=http2_port,
+        ~port=https_port,
         ~cert,
         ~priv_key,
         ~context,
@@ -149,6 +148,6 @@ let start =
       ),
     ])
   | _ =>
-    startHttpServer(~port=http1_port, ~context, ~make_routes_callback, ())
+    startHttpServer(~port=http_port, ~context, ~make_routes_callback, ())
   };
 };

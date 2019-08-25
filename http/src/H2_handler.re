@@ -26,22 +26,22 @@ let route_handler: ('a, 'b, Unix.sockaddr, H2.Reqd.t) => unit =
       let create_response = (~headers, status) =>
         H2.Response.create(~headers, status);
 
-      let httpImpl =
-        HttpImpl.{
+      let request =
+        Request.{
           target,
           meth,
           get_header: H2.Headers.get(headers),
           read_body,
         };
 
-      make_routes_callback(~httpImpl, context)
-      |> Lwt.map((response: HttpImpl.response) => {
+      make_routes_callback(~request, context)
+      |> Lwt.map((response: Response.t) => {
            let headers = H2.Headers.of_list(response.headers);
 
            let () =
              H2.Reqd.respond_with_string(
                request_descriptor,
-               create_response(~headers, `Code(Status.to_code(response.status))),
+               create_response(~headers, response.status),
                response.body,
              );
 
