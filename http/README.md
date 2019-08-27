@@ -36,7 +36,7 @@ Http.Client.fetch(
     ~meth=`POST,
     ~headers=[("Content-Type", "application/json")],
     ~body={|{"hello": "world"}|},
-    "/hello-world,
+    "/hello-world",
 )
 ```
 
