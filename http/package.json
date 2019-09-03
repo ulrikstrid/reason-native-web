@@ -20,7 +20,6 @@
     "@opam/logs": "*",
     "@opam/fmt": "*",
     "ocaml": "*",
-    "@esy-packages/esy-openssl": "*",
     "@esy-ocaml/reason": "*"
   }
 }

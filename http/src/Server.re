@@ -1,8 +1,3 @@
-let json_err =
-  fun
-  | Ok(_) as ok => ok
-  | Error(err) => Error(`String(err));
-
 let h2_handler =
     (~error_handler=H2_handler.error_handler, ~request_handler, ssl_server) =>
   H2_lwt_unix.Server.SSL.create_connection_handler(
@@ -121,13 +116,15 @@ let startHttpsServer =
   forever;
 };
 
+type route_callback('context) = (~request: Request.t, 'context) => Lwt.t(Response.t);
+
 let start =
     (
       ~http_port=8080,
       ~https_port=9443,
-      ~context,
       ~cert=?,
       ~priv_key=?,
+      ~context,
       make_routes_callback,
     ) => {
   if (Sys.unix) {

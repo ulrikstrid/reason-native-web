@@ -2,23 +2,29 @@ Fmt_tty.setup_std_outputs();
 Logs.set_level(Some(Logs.Info));
 Logs.set_reporter(Logs_fmt.reporter());
 
-let routes = {
+let root_handler = (_request, _context) => Http.Response.Ok.make();
+
+let greet_handler = (greeting, _request, _context) => {
+  Http.Response.Text.make(greeting);
+};
+
+let routes =
   Routes.(
     Routes.Infix.(
       with_method([
-        (`GET, Http.Response.Ok.make() <$ s("")),
-        (`GET, Http.Response.Text.make <$> s("greet") *> str),
+        (`GET, root_handler <$ s("")),
+        (`GET, greet_handler <$> s("greet") *> str),
       ])
     )
   );
-};
 
-Http.Server.start(~context=(), (~request, ()) => {
+let routes_callback = (~request: Http.Request.t, context) => {
   Routes.match_with_method(~target=request.target, ~meth=request.meth, routes)
   |> (
     fun
-    | Some(res) => res
+    | Some(res) => res(request, context)
     | None => Http.Response.NotFound.make()
-  )
-})
-|> Lwt_main.run;
+  );
+};
+
+Http.Server.start(~context=(), routes_callback) |> Lwt_main.run;

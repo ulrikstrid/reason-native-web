@@ -1,5 +1,3 @@
-open Request;
-
 type t = {
   status: Status.t,
   headers: list((string, string)),

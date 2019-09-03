@@ -2,15 +2,17 @@
   "name": "reason-native-web",
   "version": "0.1.0",
   "esy": {
-    "build": "dune build --root=. --only-packages=reason-native-web",
+    "build": "dune build --root=./ -j4",
     "buildEnv": {
       "ODOC_SYNTAX": "re"
     }
   },
   "scripts": {
     "test": "esy b dune runtest",
-    "docs": "esy dune build --root=. @doc",
-    "open-docs": "esy oopen #{self.target_dir}/default/_doc/_html/index.html"
+    "docs": "esy dune build @doc --root=. --only-packages=reason-native-web",
+    "open-docs": "esy oopen #{self.target_dir}/default/_doc/_html/index.html",
+    "copy-docs": "esy cp -r #{self.target_dir / 'default' / '_doc' / '_html'} website/pages/html",
+    "build-path": "esy echo #{self.target_dir / 'default' / 'http' / 'src' }"
   },
   "dependencies": {
     "@reason-native-web/http": "*",
@@ -23,7 +25,8 @@
     "@opam/merlin": "*",
     "@opam/odoc": "*",
     "@opam/routes": "*",
-    "@reason-native-web/oopen": "1.0.1"
+    "@reason-native-web/oopen": "1.0.1",
+    "@opam/md2mld": "*"
   },
   "resolutions": {
     "@opam/cstruct": "3.3.0",

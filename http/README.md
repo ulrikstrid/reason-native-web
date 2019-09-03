@@ -13,8 +13,8 @@ _The documentation is not as fleshed out as it should be, the repos is under hea
 **Server:**
 
 ```ocaml
-Http.Server.start(~context=(), (~request as _, ()) => {
-    Http.Response.Ok.make();
+Http.Server.start(~context=(), (~request as \_, ()) => {
+Http.Response.Ok.make();
 })
 |> Lwt_main.run;
 ```
@@ -24,22 +24,31 @@ Slightly larger example using ocaml-router: https://github.com/ulrikstrid/reason
 **Client:**
 
 ```ocaml
-(* GET example *)
+(_ GET example _)
 
 Http.Client.fetch("/hello-world");
 ```
 
 ```ocaml
-(* POST example *)
+(_ POST example _)
 
 Http.Client.fetch(
-    ~meth=`POST,
-    ~headers=[("Content-Type", "application/json")],
-    ~body={|{"hello": "world"}|},
-    "/hello-world",
+~meth=`POST,
+~headers=[("Content-Type", "application/json")],
+~body={|{"hello": "world"}|},
+"/hello-world",
 )
+
 ```
 
 ## Thanks
 
 A huge thanks goes out to @anmonteiro, some of the code is borrowed from his examples and then modified over time. And obviously nothing if this would have happened if it were not for his great work refining Httpaf and creating H2.
+
+```
+
+```
+
+```
+
+```
