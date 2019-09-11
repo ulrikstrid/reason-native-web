@@ -1,5 +1,7 @@
 # Reason Native Web
 
+> The packages here are moving to https://github.com/reason-native-web.
+
 A toolkit for building web applications in reason native
 
 ## Needed resolutions:
